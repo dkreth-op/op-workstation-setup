@@ -1,6 +1,6 @@
 # Description: Boxstarter Script
 # Author: Microsoft
-# Common settings for web dev
+# Common dev settings for desktop app development
 
 Disable-UAC
 
@@ -22,22 +22,29 @@ function executeScript {
 }
 
 #--- Setting up Windows ---
-executeScript "FileExplorerSettings.ps1";
 executeScript "SystemConfiguration.ps1";
-executeScript "CommonDevTools.ps1";
+executeScript "FileExplorerSettings.ps1";
 executeScript "RemoveDefaultApps.ps1";
-executeScript "HyperV.ps1";
-executeScript "Docker.ps1";
-executeScript "WSL.ps1";
-executeScript "Browsers.ps1";
+executeScript "opWorkstation.ps1";
 
 #--- Tools ---
-code --install-extension msjsdiag.debugger-for-chrome
-code --install-extension msjsdiag.debugger-for-edge
+#--- Installing VS and VS Code with Git
+# See this for install args: https://chocolatey.org/packages/VisualStudio2017Community
+# https://docs.microsoft.com/en-us/visualstudio/install/workload-component-id-vs-community
+# https://docs.microsoft.com/en-us/visualstudio/install/use-command-line-parameters-to-install-visual-studio#list-of-workload-ids-and-component-ids
+# visualstudio2017community
+# visualstudio2017professional
+# visualstudio2017enterprise
 
-#--- Microsoft WebDriver ---
-choco install -y microsoftwebdriver
 
+#Update-SessionEnvironment #refreshing env due to Git install
+
+#--- UWP Workload and installing Windows Template Studio ---
+
+executeScript "WindowsTemplateStudio.ps1";
+executeScript "GetUwpSamplesOffGithub.ps1";
+
+#--- reenabling critial items ---
 Enable-UAC
 Enable-MicrosoftUpdate
 Install-WindowsUpdate -acceptEula
